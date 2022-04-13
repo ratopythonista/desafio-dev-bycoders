@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  lms-api:
+    image: fluency-academy/lms-test
+    build: ./
+    container_name: lms-unit-test
+    command: bash -c "pytest --cov-report term-missing --cov=lms test"
+    environment:
+      - SQLALCHEMY_DATABASE_URL=postgresql://bycorders:bc123!@lbycoders-database-test:5432/cnab-parser-test
+    volumes:
+      - .:/app

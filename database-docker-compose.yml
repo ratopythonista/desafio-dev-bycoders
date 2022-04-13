@@ -1,0 +1,43 @@
+version: '3'
+
+services:
+  bycoders-database:
+    image: postgres:14
+    container_name: bycoders-database
+    environment:
+      POSTGRES_DB: cnab-parser-api
+      POSTGRES_USER: bycorders
+      POSTGRES_PASSWORD: bc123!
+    ports:
+      - "15432:5432"
+    networks:
+      - nw_bycoders
+
+  bycoders-database-test:
+    image: postgres:14
+    container_name: bycoders-database-test
+    environment:
+      POSTGRES_DB: cnab-parser-test
+      POSTGRES_USER: bycorders
+      POSTGRES_PASSWORD: bc123!
+    ports:
+      - "25432:5432"
+    networks:
+      - nw_bycoders
+
+  bycoders-pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "cnab.parser@bycoders.com"
+      PGADMIN_DEFAULT_PASSWORD: "bc123!"
+    ports:
+      - "1616:80"
+    depends_on:
+      - bycoders-database
+      - bycoders-database-test
+    networks:
+      - nw_bycoders
+
+networks:
+  nw_bycoders:
+    driver: bridge
