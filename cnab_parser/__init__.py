@@ -12,7 +12,7 @@ from starlette.exceptions import HTTPException
 from starlette.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 
-
+from cnab_parser.models import *
 from cnab_parser.exceptions import CNABParserException
 
 app = FastAPI(
