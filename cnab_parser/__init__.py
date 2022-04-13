@@ -12,7 +12,10 @@ from starlette.exceptions import HTTPException
 from starlette.middleware.cors import CORSMiddleware
 from fastapi.exceptions import RequestValidationError
 
-from cnab_parser.models import *
+from cnab_parser.routes import cnab
+from cnab_parser.models.type import TypeModel
+from cnab_parser.models.store import StoreModel
+from cnab_parser.models.transaction import TransactionModel
 from cnab_parser.exceptions import CNABParserException
 
 app = FastAPI(
@@ -24,6 +27,7 @@ app = FastAPI(
 
 logger.add(sys.stdout, colorize=True, format="{time} {level} {message}", level="INFO")
 
+app.include_router(cnab.router, prefix="/cnab", tags=["cnab"])
 
 @app.middleware("http")
 async def observability(request: Request, call_next):
