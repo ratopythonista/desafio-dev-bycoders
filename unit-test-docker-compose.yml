@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  bycoders-api:
+    image: ratopythonista/cnab-parser
+    build: ./
+    container_name: cnab-parser
+    command: bash -c "python cnab_parser/models & pytest --cov-report term-missing --cov=cnab_parser tests"
+    environment:
+      - SQLALCHEMY_DATABASE_URL=postgresql://bycorders:bc123!@192.168.0.182:25432/cnab-parser-test
+    volumes:
+      - .:/app

@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  bycoders-api:
+    image: ratopythonista/cnab-parser
+    build: ./
+    container_name: cnab-parser
+    command: bash -c "python cnab_parser/models & gunicorn --workers=1 --worker-class=uvicorn.workers.UvicornWorker --bind=0.0.0.0:80 --timeout=360000 cnab_parser:app"
+    ports:
+    - "8080:80"
+    environment:
+      - SQLALCHEMY_DATABASE_URL=postgresql://bycorders:bc123!@192.168.0.182:15432/cnab-parser-api
+    volumes:
+      - .:/app
