@@ -1,7 +1,6 @@
 from datetime import datetime
 
 from sqlalchemy.orm import Session
-from sqlalchemy.exc import IntegrityError
 
 from cnab_parser.modules.store import StoreCRUD
 from cnab_parser.models.transaction import TransactionModel

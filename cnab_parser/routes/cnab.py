@@ -1,36 +1,34 @@
 from typing import List
 
 from sqlalchemy.orm import Session
-from fastapi.responses import HTMLResponse
-from fastapi import APIRouter, File, UploadFile, Depends
+from fastapi.templating import Jinja2Templates
+from fastapi import APIRouter, File, UploadFile, Depends, Request
 
 from cnab_parser.models import get_db
 from cnab_parser.modules.cnab import CNAB
 
+
+templates = Jinja2Templates(directory="templates")
 router = APIRouter()
 
 
 @router.post("/upload")
-async def create_upload_files(
+async def process_cnab(
+    request: Request,
     db: Session = Depends(get_db),
     files: List[UploadFile] = File(..., description="CNAB File to upload")
 ):
-    return [
+
+    files = [
         {
             "filename": file.filename,
-            "transactions": CNAB(db, file.file.read().decode('utf-8')).parser().transactions
+            "count": CNAB(db, file.file.read().decode('utf-8')).parser().transactions
         } for file in files
     ]
-
-
-@router.get("/upload")
-async def main():
-    content = """
-<body>
-<form action="/cnab/upload" enctype="multipart/form-data" method="post">
-<input name="files" type="file" multiple>
-<input type="submit">
-</form>
-</body>
-    """
-    return HTMLResponse(content=content)
+    return templates.TemplateResponse(
+        "cnab.html", 
+        {
+            "request": request,
+            "files": files
+        }
+    )

@@ -1,0 +1,14 @@
+<body>
+Stores
+{% for store in store_list %}
+<li>
+<a href="{{ url_for('store_transactions', store_id=store.store_id)}}">
+    {{ store.name }}
+</a>
+</li>
+{% endfor %}
+<form action="/cnab/upload" enctype="multipart/form-data" method="post">
+    <input name="files" type="file" multiple>
+    <input type="submit">
+</form>
+</body>

@@ -1,0 +1,9 @@
+<body>
+CNABs
+{% for file in files %}
+<li>
+    {{ file.filename }} -> {{ file.count }}
+</li>
+{% endfor %}
+<a href="{{ url_for('get_all_stores')}}">Store List</a>
+</body>
