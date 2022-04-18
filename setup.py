@@ -17,7 +17,8 @@ run_requirements = [
     "SQLAlchemy>=1.4.31",
     "python-multipart>=0.0.5",
     "gunicorn>=20.1.0",
-    "requests>=2.27.1"
+    "requests>=2.27.1",
+    "Jinja2>=3.1.1"
 ]
 
 with io.open("./cnab_parser/__init__.py", encoding="utf8") as version_f:

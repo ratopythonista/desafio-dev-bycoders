@@ -3,7 +3,7 @@ install:
 	pip install -e .
 
 build:
-	docker-compose build
+	docker-compose -f api-docker-compose.yml build
 
 start-api:
 	docker-compose -f api-docker-compose.yml up -d
