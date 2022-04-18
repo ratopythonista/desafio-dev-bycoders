@@ -15,6 +15,7 @@ from fastapi.exceptions import RequestValidationError
 from cnab_parser.routes import cnab, store
 from cnab_parser.models.type import TypeModel
 from cnab_parser.models.store import StoreModel
+from cnab_parser.routes.api import include_api_routes
 from cnab_parser.models.transaction import TransactionModel
 from cnab_parser.exceptions import CNABParserException
 
@@ -27,6 +28,7 @@ app = FastAPI(
 
 logger.add(sys.stdout, colorize=True, format="{time} {level} {message}", level="INFO")
 
+include_api_routes(app)
 app.include_router(cnab.router, prefix="/cnab", tags=["cnab"])
 app.include_router(store.router, prefix="/store", tags=["store"])
 

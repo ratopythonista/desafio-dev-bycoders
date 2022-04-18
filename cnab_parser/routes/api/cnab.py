@@ -12,23 +12,17 @@ templates = Jinja2Templates(directory="templates")
 router = APIRouter()
 
 
-@router.post("/upload", include_in_schema=False)
+@router.post("/upload")
 async def process_cnab(
     request: Request,
     db: Session = Depends(get_db),
     files: List[UploadFile] = File(..., description="CNAB File to upload")
 ):
 
-    files = [
+    return [
         {
             "filename": file.filename,
             "count": CNAB(db, file.file.read().decode('utf-8')).parser().transactions
         } for file in files
     ]
-    return templates.TemplateResponse(
-        "cnab.html", 
-        {
-            "request": request,
-            "files": files
-        }
-    )
+     
